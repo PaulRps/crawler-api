@@ -1,0 +1,13 @@
+version: '3'
+services:
+  database:
+    image: 'mongo'
+    container_name: 'mongodb'
+    environment:
+      - MONGO_INITDB_DATABASE=crawler-database
+#      - MONGO_INITDB_ROOT_USERNAME=jobcrawler-api
+#      - MONGO_INITDB_ROOT_PASSWORD=jobcrawler-api@123
+#    volumes:
+#      - ./mongo-volume:/data/db docker volume create --name=mongo-volume
+    ports:
+      - 27017-27019:27017-27019
