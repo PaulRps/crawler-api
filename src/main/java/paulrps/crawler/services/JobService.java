@@ -1,10 +1,12 @@
 package paulrps.crawler.services;
 
 import java.util.List;
+import java.util.Map;
 import paulrps.crawler.domain.dto.WebPageDataDto;
+import paulrps.crawler.domain.entity.User;
 
 public interface JobService {
-  List<WebPageDataDto> getFilteredJobs(String email);
+  List<WebPageDataDto> getByUserEmail(String email);
 
-  void notifyAllUsers();
+  Map<User, List<WebPageDataDto>> getAll();
 }

@@ -11,7 +11,7 @@ public class UserServiceImpl implements paulrps.crawler.services.UserService {
   private UserRepository userRepository;
 
   @Autowired
-  UserServiceImpl(final UserRepository userRepository) {
+  public UserServiceImpl(final UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
