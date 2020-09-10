@@ -27,6 +27,42 @@
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.cosium.code</groupId>
+                        <artifactId>git-code-format-maven-plugin</artifactId>
+                        <version>2.5</version>
+                        <executions>
+                            <!--              On commit, format the modified java files-->
+                            <execution>
+                                <id>install-formatter-hook</id>
+                                <goals>
+                                    <goal>install-hooks</goal>
+                                </goals>
+                            </execution>
+                            <!-- On Maven verify phase, fail if any file
+                            (including unmodified) is badly formatted -->
+                            <execution>
+                                <id>validate-code-format</id>
+                                <goals>
+                                    <goal>validate-code-format</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <preCommitHookPipeline>| grep -F '[ERROR]' || exit 0 &amp;&amp; exit 1
+                            </preCommitHookPipeline>
+                            <googleJavaFormatOptions>
+                                <aosp>false</aosp>
+                                <fixImportsOnly>false</fixImportsOnly>
+                                <skipSortingImports>false</skipSortingImports>
+                                <skipRemovingUnusedImports>false</skipRemovingUnusedImports>
+                            </googleJavaFormatOptions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>prod</id>
@@ -90,37 +126,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.cosium.code</groupId>
-                <artifactId>git-code-format-maven-plugin</artifactId>
-                <version>2.5</version>
-                <executions>
-                    <!--              On commit, format the modified java files-->
-                    <execution>
-                        <id>install-formatter-hook</id>
-                        <goals>
-                            <goal>install-hooks</goal>
-                        </goals>
-                    </execution>
-                    <!-- On Maven verify phase, fail if any file
-                    (including unmodified) is badly formatted -->
-                    <execution>
-                        <id>validate-code-format</id>
-                        <goals>
-                            <goal>validate-code-format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <preCommitHookPipeline>| grep -F '[ERROR]' || exit 0 &amp;&amp; exit 1</preCommitHookPipeline>
-                    <googleJavaFormatOptions>
-                        <aosp>false</aosp>
-                        <fixImportsOnly>false</fixImportsOnly>
-                        <skipSortingImports>false</skipSortingImports>
-                        <skipRemovingUnusedImports>false</skipRemovingUnusedImports>
-                    </googleJavaFormatOptions>
-                </configuration>
             </plugin>
         </plugins>
     </build>
