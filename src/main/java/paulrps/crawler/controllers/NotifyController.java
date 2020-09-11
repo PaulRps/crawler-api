@@ -22,9 +22,9 @@ public class NotifyController {
 
   @PutMapping(value = "all")
   public ResponseEntity<Void> notifyAllUser() {
-    log.info("SENDING JOB OPENINGS NOTIFICATION FOR ALL USERS");
+    log.info("SENDING JOB OPENINGS NOTIFICATION TO ALL USERS");
     notifyService.notifyAllUsers();
-    log.info("SENT JOB OPENINGS NOTIFICATION FOR ALL USERS");
+    log.info("SENT JOB OPENINGS NOTIFICATION TO ALL USERS");
     return ResponseEntity.ok().build();
   }
 
