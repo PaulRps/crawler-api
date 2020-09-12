@@ -25,14 +25,14 @@ public class NotifyServiceImpl implements NotifyService {
   @Override
   public void notifyAllUsers() {
 
-    Map<User, List<WebPageDataDto>> jobOpenningsMap = jobService.getAll();
+    Map<User, List<WebPageDataDto>> userJobOpenningsMap = jobService.getAll();
 
-    jobOpenningsMap.forEach(
+    userJobOpenningsMap.forEach(
         (user, data) ->
             emailNotifier.sendTo(
                 user,
                 EmailNotificationMessageDtoDto.builder()
-                    .subject("Test Job Crawler")
+                    .subject("Job Crawler Summary")
                     .body(data)
                     .build()));
   }
@@ -42,6 +42,6 @@ public class NotifyServiceImpl implements NotifyService {
     List<WebPageDataDto> data = jobService.getByUserEmail(email);
     emailNotifier.sendTo(
         User.builder().email(email).build(),
-        EmailNotificationMessageDtoDto.builder().subject("Test Job crawler").body(data).build());
+        EmailNotificationMessageDtoDto.builder().subject("Job Crawler Summary").body(data).build());
   }
 }

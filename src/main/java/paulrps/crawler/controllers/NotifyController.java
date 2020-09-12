@@ -30,7 +30,9 @@ public class NotifyController {
 
   @PutMapping(value = "by-user/{email}")
   public ResponseEntity<Void> notifyUser(@PathVariable String email) {
+    log.info("SENDING JOB OPENINGS NOTIFICATION TO {}", email);
     notifyService.notifyByUserEmail(email);
+    log.info("SENT JOB OPENINGS NOTIFICATION TO {}", email);
     return ResponseEntity.ok().build();
   }
 }
