@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import paulrps.crawler.domain.dto.EmailNotificationMessageDtoDto;
+import paulrps.crawler.domain.dto.EmailNotificationMessageDto;
 import paulrps.crawler.domain.dto.GitHubIssuePageDto;
 import paulrps.crawler.domain.entity.User;
 
@@ -23,7 +23,7 @@ class EmailNotifierTest {
         () ->
             jobNotifier.sendTo(
                 User.builder().email("ricardopaulo18@hotmail.com").build(),
-                EmailNotificationMessageDtoDto.builder()
+                EmailNotificationMessageDto.builder()
                     .subject("Testing Mail API")
                     .body(
                         Arrays.asList(

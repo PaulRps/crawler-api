@@ -19,7 +19,7 @@ public class JobController {
   private JobService jobService;
 
   @Autowired
-  public JobController(final JobService jobService) {
+  JobController(final JobService jobService) {
     this.jobService = jobService;
   }
 
