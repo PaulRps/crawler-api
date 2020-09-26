@@ -1,5 +1,7 @@
 package paulrps.crawler.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +39,10 @@ public class GitHubWebPageParser extends paulrps.crawler.util.WebPageParser {
     return GitHubIssuePageDto.builder()
         .title(title.text())
         .labels(getLabels(issue.select("span.labels")))
-        .dateCreation(issue.select("relative-time").attr("datetime"))
+        .dateCreation(
+            LocalDateTime.parse(
+                    issue.select("relative-time").attr("datetime"), DateTimeFormatter.ISO_DATE_TIME)
+                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))
         .url(title.attr("abs:href"))
         .description(getDescription(title.attr("abs:href")))
         .build();

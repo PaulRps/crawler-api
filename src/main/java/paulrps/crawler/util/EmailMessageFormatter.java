@@ -11,7 +11,7 @@ import paulrps.crawler.domain.dto.WebPageDataDto;
 public class EmailMessageFormatter implements MessageFormatter {
   @Override
   public String formatBody(List<WebPageDataDto> data) {
-    StringBuilder body = new StringBuilder("Job Openings Sumary:");
+    StringBuilder body = new StringBuilder("Job Openings Summary:");
     body.append(Constants.LINE_SEPARATOR);
     body.append(Constants.LINE_SEPARATOR);
 
@@ -28,6 +28,8 @@ public class EmailMessageFormatter implements MessageFormatter {
                     .append(Constants.LINE_SEPARATOR)
                     .append("Labels: ")
                     .append(d.getLabels().stream().collect(Collectors.joining(", ")))
+                    .append(Constants.LINE_SEPARATOR)
+                    .append(String.format("Published on %s", d.getDateCreation()))
                     .append(Constants.LINE_SEPARATOR)
                     .append(Constants.LINE_SEPARATOR));
     return body.toString();
