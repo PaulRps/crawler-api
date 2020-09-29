@@ -19,6 +19,7 @@ class UserServiceImplTest {
           .email("paulosilvajp0@gmail.com")
           .webPages(Arrays.asList("1"))
           .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
+          .isActive(true)
           .build();
 
   @Test
@@ -40,6 +41,14 @@ class UserServiceImplTest {
   @Test
   void findAll() {
     List<User> all = userService.findAll();
+
+    Assertions.assertNotNull(all);
+    Assertions.assertFalse(all.isEmpty());
+  }
+
+  @Test
+  void findAllActive() {
+    List<User> all = userService.findAllActive();
 
     Assertions.assertNotNull(all);
     Assertions.assertFalse(all.isEmpty());

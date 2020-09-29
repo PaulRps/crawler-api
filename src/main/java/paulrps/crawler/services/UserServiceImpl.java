@@ -26,6 +26,11 @@ public class UserServiceImpl implements paulrps.crawler.services.UserService {
   }
 
   @Override
+  public List<User> findAllActive() {
+    return userRepository.findByIsActiveTrue();
+  }
+
+  @Override
   public void save(User user) {
     userRepository.save(user);
   }

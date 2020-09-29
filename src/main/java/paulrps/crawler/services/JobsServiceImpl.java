@@ -38,7 +38,7 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
   @Override
   public Map<User, List<WebPageDataDto>> getAll() {
     Map<User, List<WebPageDataDto>> jobOpenningsMap = new LinkedHashMap<>();
-    userService.findAll().stream()
+    userService.findAllActive().stream()
         .forEach(user -> jobOpenningsMap.put(user, getByUserEmail(user.getEmail())));
     return jobOpenningsMap;
   }
