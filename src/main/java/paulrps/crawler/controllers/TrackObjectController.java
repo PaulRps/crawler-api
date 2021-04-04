@@ -22,12 +22,12 @@ public class TrackObjectController {
   }
 
   @PostMapping
-  public ResponseEntity<TrackObject> save(TrackObject trackObject) {
+  public ResponseEntity<TrackObject> save(@RequestBody TrackObject trackObject) {
     return new ResponseEntity(trackObjectService.save(trackObject), HttpStatus.CREATED);
   }
 
   @PutMapping
-  public ResponseEntity<Void> update(TrackObject trackObject) {
+  public ResponseEntity<Void> update(@RequestBody TrackObject trackObject) {
     trackObjectService.update(trackObject);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
