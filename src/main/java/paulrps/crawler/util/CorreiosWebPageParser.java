@@ -5,40 +5,40 @@ import lombok.Setter;
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import paulrps.crawler.domain.dto.TrackingDataDto;
-import paulrps.crawler.domain.dto.TrackingEventDto;
-import paulrps.crawler.domain.entity.TrackedObject;
-import paulrps.crawler.services.TrackingService;
+import paulrps.crawler.domain.dto.TrackDataDto;
+import paulrps.crawler.domain.dto.TrackEventDto;
+import paulrps.crawler.domain.entity.TrackObject;
+import paulrps.crawler.services.TrackingParseService;
 
 import java.util.*;
 
 @Setter
 @Getter
-public class CorreiosWebPageParser implements WebPageParser<TrackingDataDto>, TrackingService {
+public class CorreiosWebPageParser implements WebPageParser<TrackDataDto>, TrackingParseService {
 
-  private List<TrackedObject> trackedObjects;
+  private List<TrackObject> trackObjects;
 
   public CorreiosWebPageParser() {
     super();
   }
 
   @Override
-  public List<TrackingDataDto> parseData(String url) {
-    Optional.ofNullable(trackedObjects)
+  public List<TrackDataDto> parseData(String url) {
+    Optional.ofNullable(trackObjects)
         .orElseThrow(() -> new RuntimeException("tracked objects field is null"));
 
     Map<String, String> data = new TreeMap<>();
     data.put("acao", "track");
     data.put("btnPesq", "Buscar");
 
-    List<TrackingDataDto> result = new ArrayList<>();
+    List<TrackDataDto> result = new ArrayList<>();
 
-    trackedObjects.forEach(
+    trackObjects.forEach(
         obj -> {
-          data.put("objetos", obj.getTrackingCode());
+          data.put("objetos", obj.getTrackCode());
           result.add(
-              TrackingDataDto.builder()
-                  .trackingCode(obj.getTrackingCode())
+              TrackDataDto.builder()
+                  .trackingCode(obj.getTrackCode())
                   .events(parseByCode(url, data))
                   .build());
         });
@@ -46,9 +46,9 @@ public class CorreiosWebPageParser implements WebPageParser<TrackingDataDto>, Tr
     return result;
   }
 
-  private List<TrackingEventDto> parseByCode(String url, Map<String, String> data) {
+  private List<TrackEventDto> parseByCode(String url, Map<String, String> data) {
     Optional<Document> document = WebPageScraper.getDocument(url, Connection.Method.POST, data);
-    List<TrackingEventDto> result = new ArrayList<>();
+    List<TrackEventDto> result = new ArrayList<>();
     if (document.isPresent()) {
       Elements events = document.get().select("table.listEvent");
       events.forEach(
@@ -60,9 +60,9 @@ public class CorreiosWebPageParser implements WebPageParser<TrackingDataDto>, Tr
     return result;
   }
 
-  private TrackingEventDto getWebPageData(Elements row) {
+  private TrackEventDto getWebPageData(Elements row) {
     String text = row.text();
-    return TrackingEventDto.builder()
+    return TrackEventDto.builder()
         .dtEvent(text.substring(0, 16))
         .description(text.substring(16))
         .build();

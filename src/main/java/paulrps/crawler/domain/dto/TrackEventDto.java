@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TrackingEventDto {
+public class TrackEventDto {
   private String dtEvent;
   private String description;
 }

@@ -13,7 +13,7 @@ import paulrps.crawler.domain.entity.User;
 import paulrps.crawler.services.JobService;
 
 @RestController
-@RequestMapping(value = "jobs")
+@RequestMapping(value = "v1/jobs")
 public class JobController {
 
   private JobService jobService;
@@ -28,7 +28,7 @@ public class JobController {
     return ResponseEntity.ok(jobService.getAll());
   }
 
-  @GetMapping(value = "by-user/{email}")
+  @GetMapping(value = "user/{email}")
   public ResponseEntity<List<WebPageDataDto>> getByUserEmail(@PathVariable String email) {
     return ResponseEntity.ok(jobService.getByUserEmail(email));
   }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import paulrps.crawler.services.NotifyService;
 
 @RestController
-@RequestMapping("notify")
+@RequestMapping("v1/notify")
 public class NotifyController {
   private NotifyService notifyService;
 
@@ -25,7 +25,7 @@ public class NotifyController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @PutMapping(value = "by-user/{email}")
+  @PutMapping(value = "user/{email}")
   public ResponseEntity<Void> notifyUser(@PathVariable String email) {
     notifyService.notifyByUserEmail(email);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);

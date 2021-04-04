@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Builder
 @Document
-public class TrackedObject {
+public class TrackObject {
   @Id private String id;
   private String userId;
-  private String trackingCode;
+  private String trackCode;
   private Integer sender;
   private Long lastEvents;
   private Boolean isActive = true;

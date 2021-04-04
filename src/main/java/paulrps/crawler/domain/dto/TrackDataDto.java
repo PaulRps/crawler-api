@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TrackingDataDto {
+public class TrackDataDto {
   private String trackingCode;
-  private List<TrackingEventDto> events;
+  private List<TrackEventDto> events;
 }
