@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>paulrps</groupId>
-    <artifactId>job-crawler</artifactId>
+    <artifactId>crawler-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>job-crawler</name>
-    <description>Job Crawler web service</description>
+    <name>crawler-api</name>
+    <description>Crawler API for scraping data on web page</description>
 
     <properties>
         <java.version>1.8</java.version>
