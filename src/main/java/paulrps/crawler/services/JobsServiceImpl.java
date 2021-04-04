@@ -8,10 +8,7 @@ import paulrps.crawler.domain.enums.ParserTypeEnum;
 import paulrps.crawler.util.WebPageParserFactory;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class JobsServiceImpl implements paulrps.crawler.services.JobService {
@@ -26,10 +23,10 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
   public List<WebPageDataDto> getByUserEmail(String email) {
     User user = userService.findOneByEmail(email);
     List<WebPageDataDto> jobs = new ArrayList<>();
-    Map<Integer, String> jobType =
-        Map.of(
-            ParserTypeEnum.GITHUB_BACKEND_ISSUES.getId(),
-            ParserTypeEnum.GITHUB_BACKEND_ISSUES.getUrl());
+    Map<Integer, String> jobType = new TreeMap<>();
+    jobType.put(
+        ParserTypeEnum.GITHUB_BACKEND_ISSUES.getId(),
+        ParserTypeEnum.GITHUB_BACKEND_ISSUES.getUrl());
 
     user.getWebPages().stream()
         .filter(webPageId -> jobType.containsKey(webPageId))
