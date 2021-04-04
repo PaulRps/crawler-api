@@ -64,6 +64,7 @@ public class NotifyServiceImpl implements NotifyService {
 
   @Override
   public void notifyAllUsersTrack() {
+    log.info("notifing all users for tracking objects");
     List<User> users = userService.findAll();
 
     users.forEach(
@@ -72,6 +73,7 @@ public class NotifyServiceImpl implements NotifyService {
               trackObjectService.getTrackObjByUserEmail(user.getEmail()).stream()
                   .filter(obj -> obj.isHasChanged())
                   .collect(Collectors.toList());
+          log.info("found {} track objects to notify", trackData.size());
           if (!trackData.isEmpty())
             emailNotifier.sendTo(user, "Tracking Summary", tempTrackObjFormater(trackData));
         });
