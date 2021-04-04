@@ -1,14 +1,13 @@
 package paulrps.crawler.util;
 
-import paulrps.crawler.domain.enums.WebPageEnum;
+import paulrps.crawler.domain.enums.ParserTypeEnum;
 
-public class WebPageParserFactory {
-  private WebPageParserFactory() {}
-
-  public static paulrps.crawler.util.WebPageParser getOne(WebPageEnum webPageEnum) {
-    if (WebPageEnum.GITHUB_BACKEND_ISSUES.equals(webPageEnum)) {
-
-      return new paulrps.crawler.util.GitHubWebPageParser(webPageEnum);
+public final class WebPageParserFactory {
+  public static WebPageParser getInstance(ParserTypeEnum parserTypeEnum) {
+    if (ParserTypeEnum.GITHUB_BACKEND_ISSUES.equals(parserTypeEnum)) {
+      return new paulrps.crawler.util.GitHubWebPageParser();
+    } else if (ParserTypeEnum.CORREIOS_TRACK_OBJ.equals(parserTypeEnum)) {
+      return new CorreiosWebPageParser();
     }
 
     return null;

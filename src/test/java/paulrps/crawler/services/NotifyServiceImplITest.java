@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NotifyServiceImplTest {
+class NotifyServiceImplITest {
   @Autowired private NotifyService notifyService;
 
   @Test

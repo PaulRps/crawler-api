@@ -18,7 +18,7 @@ class JobsServiceImplTest {
 
   @Test
   void getByUserEmail() {
-    String email = "paulosilvajp0@gmail.com";
+    String email = "ricardopaulo18@hotmail.com";
     User user = userService.findOneByEmail(email);
 
     if (!Optional.ofNullable(user).isPresent()) {
@@ -26,7 +26,7 @@ class JobsServiceImplTest {
           User.builder()
               .name("Paulo Silva")
               .email(email)
-              .webPages(Arrays.asList("1"))
+              .webPages(Arrays.asList(1))
               .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
               .build();
       userService.save(user);

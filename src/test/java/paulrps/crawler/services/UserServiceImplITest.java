@@ -1,23 +1,24 @@
 package paulrps.crawler.services;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import paulrps.crawler.domain.entity.User;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 @SpringBootTest
-class UserServiceImplTest {
+class UserServiceImplITest {
   @Autowired private paulrps.crawler.services.UserService userService;
 
   private static final User testUser =
       User.builder()
           .name("Paulo Silva")
           .email("paulosilvajp0@gmail.com")
-          .webPages(Arrays.asList("1"))
+          .webPages(Arrays.asList(1))
           .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
           .isActive(true)
           .build();

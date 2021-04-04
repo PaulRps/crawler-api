@@ -1,29 +1,24 @@
 package paulrps.crawler.util;
 
+import org.jsoup.Connection;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import paulrps.crawler.domain.dto.GitHubIssuePageDto;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import paulrps.crawler.domain.dto.GitHubIssuePageDto;
-import paulrps.crawler.domain.dto.WebPageDataDto;
-import paulrps.crawler.domain.enums.WebPageEnum;
 
-public class GitHubWebPageParser extends paulrps.crawler.util.WebPageParser {
-
-  public GitHubWebPageParser(WebPageEnum webPageEnum) {
-    super();
-    this.webPageEnum = webPageEnum;
-  }
+public class GitHubWebPageParser implements WebPageParser<GitHubIssuePageDto> {
 
   @Override
-  public List<WebPageDataDto> parseData() {
-    List<WebPageDataDto> gitIssuesData = new ArrayList<>();
-    getDocument(getPageUrl())
+  public List<GitHubIssuePageDto> parseData(String url) {
+    List<GitHubIssuePageDto> gitIssuesData = new ArrayList<>();
+    WebPageScraper.getDocument(url, Connection.Method.GET)
         .ifPresent(
             doc -> {
               Elements issues = doc.select("[id^=issue_]");
@@ -34,7 +29,7 @@ public class GitHubWebPageParser extends paulrps.crawler.util.WebPageParser {
     return gitIssuesData;
   }
 
-  private WebPageDataDto getWebPageData(Element issue) {
+  private GitHubIssuePageDto getWebPageData(Element issue) {
     Elements title = issue.select("a[id^=issue_]");
     return GitHubIssuePageDto.builder()
         .title(title.text())
@@ -49,7 +44,7 @@ public class GitHubWebPageParser extends paulrps.crawler.util.WebPageParser {
   }
 
   private String getDescription(String issueUrl) {
-    Optional<Document> issuePage = getDocument(issueUrl);
+    Optional<Document> issuePage = WebPageScraper.getDocument(issueUrl, Connection.Method.GET);
     String description = null;
     if (issuePage.isPresent()) {
       Elements descrip = issuePage.get().select("td.comment-body");

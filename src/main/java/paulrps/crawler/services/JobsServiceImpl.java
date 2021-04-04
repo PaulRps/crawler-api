@@ -1,16 +1,17 @@
 package paulrps.crawler.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import paulrps.crawler.domain.dto.WebPageDataDto;
+import paulrps.crawler.domain.entity.User;
+import paulrps.crawler.domain.enums.ParserTypeEnum;
+import paulrps.crawler.util.WebPageParserFactory;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import paulrps.crawler.domain.dto.WebPageDataDto;
-import paulrps.crawler.domain.entity.User;
-import paulrps.crawler.domain.enums.WebPageEnum;
-import paulrps.crawler.util.WebPageParserFactory;
 
 @Service
 public class JobsServiceImpl implements paulrps.crawler.services.JobService {
@@ -25,13 +26,23 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
   public List<WebPageDataDto> getByUserEmail(String email) {
     User user = userService.findOneByEmail(email);
     List<WebPageDataDto> jobs = new ArrayList<>();
-    user.getWebPages()
+    Map<Integer, String> jobType =
+        Map.of(
+            ParserTypeEnum.GITHUB_BACKEND_ISSUES.getId(),
+            ParserTypeEnum.GITHUB_BACKEND_ISSUES.getUrl());
+
+    user.getWebPages().stream()
+        .filter(webPageId -> jobType.containsKey(webPageId))
         .forEach(
-            webPageId ->
-                WebPageParserFactory.getOne(WebPageEnum.getOne(Integer.parseInt(webPageId)))
-                    .parseData().stream()
-                    .filter(data -> filterData(data, user))
-                    .forEach(jobs::add));
+            webPageId -> {
+              ParserTypeEnum parserTypeEnum = ParserTypeEnum.getOne(webPageId);
+
+              WebPageParserFactory.getInstance(parserTypeEnum)
+                  .parseData(parserTypeEnum.getUrl())
+                  .stream()
+                  .filter(data -> filterData((WebPageDataDto) data, user))
+                  .forEach(job -> jobs.add((WebPageDataDto) job));
+            });
     return jobs;
   }
 
