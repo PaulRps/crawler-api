@@ -24,10 +24,18 @@ public class EmailNotifier extends JobNotifier {
 
   @Override
   public void sendTo(User user, NotificationMessageDto message) {
+    sendTo(
+        user,
+        ((EmailNotificationMessageDto) message).getSubject(),
+        messageFormatter.formatBody(message.getBody()));
+  }
+
+  @Override
+  public void sendTo(User user, String subject, String message) {
     SimpleMailMessage mail = new SimpleMailMessage();
     mail.setTo(user.getEmail());
-    mail.setSubject(((EmailNotificationMessageDto) message).getSubject());
-    mail.setText(messageFormatter.formatBody(message.getBody()));
+    mail.setSubject(subject);
+    mail.setText(message);
     javaMailSender.send(mail);
   }
 }

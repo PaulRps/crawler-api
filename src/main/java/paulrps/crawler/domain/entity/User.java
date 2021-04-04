@@ -19,7 +19,7 @@ public class User {
   private List<String> jobKeyWords;
   private Boolean isActive = true;
 
-  public static final Comparator<User> compareById = (u1, u2) -> u1.getId().compareTo(u2.getId());
-  public static final Comparator<User> compareByEmail =
-      (u1, u2) -> u1.getEmail().compareTo(u2.getEmail());
+//  public static final Comparator<User> compareById = (u1, u2) -> u1.getId().compareTo(u2.getId());
+//  public static final Comparator<User> compareByEmail =
+//      (u1, u2) -> u1.getEmail().compareTo(u2.getEmail());
 }

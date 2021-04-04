@@ -6,7 +6,7 @@ import paulrps.crawler.domain.entity.TrackObject;
 import java.util.List;
 
 public interface TrackObjectRepository extends MongoRepository<TrackObject, String> {
-    List<TrackObject> findByUserId(String userId);
+  List<TrackObject> findByUserIdAndIsActiveTrue(String userId);
 
-    TrackObject findByTrackCode(String trackCode);
+  TrackObject findByTrackCode(String trackCode);
 }

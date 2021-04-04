@@ -4,4 +4,6 @@ public interface NotifyService {
   void notifyAllUsers();
 
   void notifyByUserEmail(String email);
+
+  void notifyAllUsersTrack();
 }

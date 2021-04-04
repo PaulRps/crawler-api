@@ -63,7 +63,7 @@ public class TrackObjectServiceImpl implements TrackObjectService {
   @Override
   public List<TrackDataDto> getTrackObjByUserEmail(String email) {
     User user = userService.findOneByEmail(email);
-    List<TrackObject> trackObjects = repository.findByUserId(user.getId());
+    List<TrackObject> trackObjects = repository.findByUserIdAndIsActiveTrue(user.getId());
 
     List<TrackDataDto> result = new ArrayList<>();
     trackObjects.stream()
@@ -81,8 +81,7 @@ public class TrackObjectServiceImpl implements TrackObjectService {
     return result;
   }
 
-  private void updateIfChanged(
-          List<TrackObject> trackObjectList, List<TrackDataDto> result) {
+  private void updateIfChanged(List<TrackObject> trackObjectList, List<TrackDataDto> result) {
 
     Map<String, TrackObject> trackObjMap =
         trackObjectList.stream().collect(Collectors.toMap(TrackObject::getTrackCode, to -> to));
@@ -91,7 +90,9 @@ public class TrackObjectServiceImpl implements TrackObjectService {
         r -> {
           TrackObject trackObject = trackObjMap.get(r.getTrackingCode());
           long size = r.getEvents().size();
-          if (trackObject.hasChanged(size)) {
+          boolean hasChanged = trackObject.hasChanged(size);
+          r.setHasChanged(hasChanged);
+          if (hasChanged) {
             trackObject.setLastEvents(size);
             repository.save(trackObject);
           }

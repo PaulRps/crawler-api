@@ -12,4 +12,5 @@ import java.util.List;
 public class TrackDataDto {
   private String trackingCode;
   private List<TrackEventDto> events;
+  private boolean hasChanged = false;
 }

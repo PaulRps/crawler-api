@@ -30,4 +30,10 @@ public class NotifyController {
     notifyService.notifyByUserEmail(email);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
+
+  @PutMapping("track-object")
+  public ResponseEntity<Void> notifyAllUsers() {
+    notifyService.notifyAllUsersTrack();
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
 }
