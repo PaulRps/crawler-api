@@ -30,8 +30,8 @@ public class TrackedObjectServiceImpl implements TrackedObjectService {
   }
 
   @Override
-  public void save(TrackedObject trackedObject) {
-    repository.save(trackedObject);
+  public TrackedObject save(TrackedObject trackedObject) {
+    return repository.save(trackedObject);
   }
 
   @Override

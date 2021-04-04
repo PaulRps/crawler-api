@@ -22,9 +22,8 @@ public class TrackingObjectController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> save(TrackedObject trackedObject) {
-    trackedObjectService.save(trackedObject);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  public ResponseEntity<TrackedObject> save(TrackedObject trackedObject) {
+    return new ResponseEntity(trackedObjectService.save(trackedObject), HttpStatus.CREATED);
   }
 
   @PutMapping

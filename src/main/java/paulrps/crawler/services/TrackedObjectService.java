@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TrackedObjectService {
 
-  void save(TrackedObject trackedObject);
+  TrackedObject save(TrackedObject trackedObject);
 
   TrackedObject update(TrackedObject trackedObject);
 
