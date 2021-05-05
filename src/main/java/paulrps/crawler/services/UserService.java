@@ -11,5 +11,7 @@ public interface UserService {
 
   List<User> findAllActive();
 
-  void save(User user);
+  User save(User user);
+
+  void delete(String email);
 }

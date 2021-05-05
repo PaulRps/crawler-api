@@ -33,7 +33,7 @@ public class TrackObjectServiceImpl implements TrackObjectService {
   @Override
   public TrackObject save(TrackObjectDto trackObject) {
     Optional.ofNullable(userService.findOneByEmail(trackObject.getUserEmail()))
-        .ifPresent((user) -> trackObject.setUserId(user.getId()));
+        .ifPresent(user -> trackObject.setUserId(user.getId()));
 
     return repository.save(trackObject);
   }
