@@ -1,0 +1,30 @@
+version: '3'
+services:
+  api:
+    container_name: 'crawler-api'
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: 'crawler-api:latest'
+    depends_on:
+        - crawlerdb
+    ports:
+      - 8080:8080
+    networks:
+      - crawler-network
+  crawlerdb:
+    container_name: crawlerdb
+    image: 'mongo'
+    environment:
+      - MONGO_INITDB_DATABASE=crawler
+    #      - MONGO_INITDB_ROOT_USERNAME=jobcrawler-api
+    #      - MONGO_INITDB_ROOT_PASSWORD=jobcrawler-api@123
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017-27019:27017-27019
+    networks:
+      - crawler-network
+networks:
+  crawler-network:
+    driver: bridge

@@ -17,7 +17,7 @@ public class TrackObject {
   private String userId;
   private String trackCode;
   private Integer sender;
-  private Long lastEvents;
+  private Long lastEvents = 0l;
   private Boolean isActive = true;
 
   public boolean hasChanged(Long current) {

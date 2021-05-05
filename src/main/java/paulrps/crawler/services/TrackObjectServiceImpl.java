@@ -3,6 +3,7 @@ package paulrps.crawler.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import paulrps.crawler.domain.dto.TrackDataDto;
+import paulrps.crawler.domain.dto.TrackObjectDto;
 import paulrps.crawler.domain.entity.TrackObject;
 import paulrps.crawler.domain.entity.User;
 import paulrps.crawler.domain.enums.ParserTypeEnum;
@@ -30,7 +31,10 @@ public class TrackObjectServiceImpl implements TrackObjectService {
   }
 
   @Override
-  public TrackObject save(TrackObject trackObject) {
+  public TrackObject save(TrackObjectDto trackObject) {
+    Optional.ofNullable(userService.findOneByEmail(trackObject.getUserEmail()))
+        .ifPresent((user) -> trackObject.setUserId(user.getId()));
+
     return repository.save(trackObject);
   }
 

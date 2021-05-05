@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crawler-db-config
+data:
+  host: crawlerdb-service
+  database: crawler

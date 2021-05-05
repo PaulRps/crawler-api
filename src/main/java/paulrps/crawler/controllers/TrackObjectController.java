@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import paulrps.crawler.domain.dto.TrackDataDto;
+import paulrps.crawler.domain.dto.TrackObjectDto;
 import paulrps.crawler.domain.entity.TrackObject;
 import paulrps.crawler.services.TrackObjectService;
 
@@ -22,7 +23,7 @@ public class TrackObjectController {
   }
 
   @PostMapping
-  public ResponseEntity<TrackObject> save(@RequestBody TrackObject trackObject) {
+  public ResponseEntity<TrackObject> save(@RequestBody TrackObjectDto trackObject) {
     return new ResponseEntity(trackObjectService.save(trackObject), HttpStatus.CREATED);
   }
 

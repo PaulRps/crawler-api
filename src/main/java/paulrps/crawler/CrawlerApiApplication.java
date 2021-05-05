@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JobCrawlerApplication {
+public class CrawlerApiApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(JobCrawlerApplication.class, args);
+    SpringApplication.run(CrawlerApiApplication.class, args);
   }
 }
