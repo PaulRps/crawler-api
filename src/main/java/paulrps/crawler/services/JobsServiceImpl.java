@@ -1,23 +1,24 @@
 package paulrps.crawler.services;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import paulrps.crawler.domain.dto.WebPageDataDto;
 import paulrps.crawler.domain.entity.User;
+import paulrps.crawler.domain.entity.UserJobFilter;
 import paulrps.crawler.domain.enums.ParserTypeEnum;
 import paulrps.crawler.util.WebPageParserFactory;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobsServiceImpl implements paulrps.crawler.services.JobService {
-  private paulrps.crawler.services.UserService userService;
-
-  @Autowired
-  public JobsServiceImpl(final paulrps.crawler.services.UserService userService) {
-    this.userService = userService;
-  }
+  private final @NonNull paulrps.crawler.services.UserService userService;
+  private final @NonNull UserJobFilterService userJobFilterService;
 
   @Override
   public List<WebPageDataDto> getByUserEmail(String email) {
@@ -28,37 +29,56 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
         ParserTypeEnum.GITHUB_BACKEND_ISSUES.getId(),
         ParserTypeEnum.GITHUB_BACKEND_ISSUES.getUrl());
 
-    user.getWebPages().stream()
-        .filter(webPageId -> jobType.containsKey(webPageId))
-        .forEach(
-            webPageId -> {
-              ParserTypeEnum parserTypeEnum = ParserTypeEnum.getOne(webPageId);
+    UserJobFilter userJobFilter = userJobFilterService.findByUserId(user.getId());
+    Optional.ofNullable(userJobFilter)
+        .ifPresent(
+            filters -> {
+              filters.getWebPages().stream()
+                  .filter(webPageId -> jobType.containsKey(webPageId))
+                  .forEach(
+                      webPageId -> {
+                        ParserTypeEnum parserTypeEnum = ParserTypeEnum.getOne(webPageId);
 
-              WebPageParserFactory.getInstance(parserTypeEnum)
-                  .parseData(parserTypeEnum.getUrl())
-                  .stream()
-                  .filter(data -> filterData((WebPageDataDto) data, user))
-                  .forEach(job -> jobs.add((WebPageDataDto) job));
+                        WebPageParserFactory.getInstance(parserTypeEnum)
+                            .parseData(parserTypeEnum.getUrl())
+                            .stream()
+                            .filter(data -> filterData((WebPageDataDto) data, filters))
+                            .forEach(job -> jobs.add((WebPageDataDto) job));
+                      });
             });
+
     return jobs;
   }
 
   @Override
   public Map<User, List<WebPageDataDto>> getAll() {
     Map<User, List<WebPageDataDto>> jobOpenningsMap = new LinkedHashMap<>();
-    userService.findAllActive().stream()
-        .forEach(user -> jobOpenningsMap.put(user, getByUserEmail(user.getEmail())));
+
+    List<User> allUsers = userService.findAll();
+    Map<String, List<UserJobFilter>> activeUsersMap =
+        userJobFilterService.findAll().stream()
+            .filter(UserJobFilter::getIsActive)
+            .collect(Collectors.groupingBy(UserJobFilter::getUserId));
+
+    Optional.ofNullable(allUsers)
+        .ifPresent(
+            users ->
+                users.stream()
+                    .filter(user -> activeUsersMap.containsKey(user.getId()))
+                    .forEach(user -> jobOpenningsMap.put(user, getByUserEmail(user.getEmail()))));
+
     return jobOpenningsMap;
   }
 
-  private boolean filterData(WebPageDataDto data, User user) {
+  private boolean filterData(WebPageDataDto data, UserJobFilter userJobFilter) {
     Map<String, String> dataMap = data.getDataMap();
     long countMatch =
-        user.getJobKeyWords().stream()
+        userJobFilter.getJobKeyWords().stream()
             .filter(keyWord -> dataMap.containsKey(keyWord.toLowerCase()))
             .count();
 
-    return (BigDecimal.valueOf(countMatch).divide(BigDecimal.valueOf(user.getJobKeyWords().size())))
+    return (BigDecimal.valueOf(countMatch)
+                .divide(BigDecimal.valueOf(userJobFilter.getJobKeyWords().size())))
             .compareTo(BigDecimal.valueOf(0.5))
         >= 0;
   }

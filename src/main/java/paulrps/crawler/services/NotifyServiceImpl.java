@@ -1,5 +1,7 @@
 package paulrps.crawler.services;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,23 +20,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class NotifyServiceImpl implements NotifyService {
-  private JobService jobService;
-  private JobNotifier emailNotifier;
-  private UserService userService;
-  private TrackObjectService trackObjectService;
 
-  @Autowired
-  public NotifyServiceImpl(
-      final JobService jobService,
-      final @Qualifier("EmailNotifier") JobNotifier emailNotifier,
-      UserService userService,
-      TrackObjectService trackObjectService) {
-    this.jobService = jobService;
-    this.emailNotifier = emailNotifier;
-    this.userService = userService;
-    this.trackObjectService = trackObjectService;
-  }
+  private final @NonNull JobService jobService;
+
+  @Qualifier("EmailNotifier")
+  private final @NonNull JobNotifier emailNotifier;
+
+  private final @NonNull UserService userService;
+  private final @NonNull TrackObjectService trackObjectService;
 
   @Override
   public void notifyAllUsers() {

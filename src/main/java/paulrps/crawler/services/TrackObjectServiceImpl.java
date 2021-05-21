@@ -1,5 +1,7 @@
 package paulrps.crawler.services;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import paulrps.crawler.domain.converters.TrackObjectConverter;
@@ -16,20 +18,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TrackObjectServiceImpl implements TrackObjectService {
 
-  private TrackObjectRepository repository;
-  private UserService userService;
-  private TrackObjectConverter converter;
-
-  @Autowired
-  public TrackObjectServiceImpl(
-      TrackObjectRepository repository, UserService userService, TrackObjectConverter converter) {
-    super();
-    this.repository = repository;
-    this.userService = userService;
-    this.converter = converter;
-  }
+  private final @NonNull TrackObjectRepository repository;
+  private final @NonNull UserService userService;
+  private final @NonNull TrackObjectConverter converter;
 
   @Override
   public TrackObject save(TrackObjectDto trackObjectDto) {
@@ -41,13 +35,19 @@ public class TrackObjectServiceImpl implements TrackObjectService {
   }
 
   @Override
-  public TrackObject update(TrackObject trackObject) {
-    Optional.ofNullable(trackObject)
-        .orElseThrow(() -> new RuntimeException("tracked object is null"));
-    Optional.ofNullable(trackObject.getId())
-        .orElseThrow(() -> new RuntimeException("tracked object id is null"));
+  public TrackObject update(TrackObjectDto trackObjectDto) {
 
-    return repository.save(trackObject);
+    Optional.ofNullable(trackObjectDto)
+        .orElseThrow(() -> new RuntimeException("tracked object is null"));
+
+    TrackObject trackObject = repository.findByTrackCode(trackObjectDto.getTrackCode());
+    Optional.ofNullable(trackObject)
+        .orElseThrow(() -> new RuntimeException("tracked object does not exist"));
+
+    TrackObject toUpdate = converter.toEntity(trackObjectDto);
+    toUpdate.setId(trackObject.getId());
+
+    return repository.save(toUpdate);
   }
 
   @Override
@@ -106,7 +106,7 @@ public class TrackObjectServiceImpl implements TrackObjectService {
           boolean hasChanged = trackObject.hasChanged(size);
           r.setHasChanged(hasChanged);
           if (hasChanged) {
-            trackObject.setLastEvents(size);
+            trackObject.setLastEventsAmount(size);
             repository.save(trackObject);
           }
         });

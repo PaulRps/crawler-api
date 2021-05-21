@@ -18,10 +18,10 @@ public class TrackObject {
   private String trackCode;
   private String description;
   private Integer carrier;
-  private Long lastEvents = 0l;
+  private Long lastEventsAmount = 0l;
   private Boolean isActive = true;
 
   public boolean hasChanged(Long current) {
-    return current > lastEvents;
+    return current > lastEventsAmount;
   }
 }

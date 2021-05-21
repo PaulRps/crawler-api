@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import paulrps.crawler.domain.entity.User;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +14,7 @@ class UserServiceImplITest {
   @Autowired private paulrps.crawler.services.UserService userService;
 
   private static final User testUser =
-      User.builder()
-          .name("Paulo Silva")
-          .email("paulosilvajp0@gmail.com")
-          .webPages(Arrays.asList(1))
-          .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
-          .isActive(true)
-          .build();
+      User.builder().name("Paulo Silva").email("paulosilvajp0@gmail.com").build();
 
   @Test
   void save() {
@@ -42,14 +35,6 @@ class UserServiceImplITest {
   @Test
   void findAll() {
     List<User> all = userService.findAll();
-
-    Assertions.assertNotNull(all);
-    Assertions.assertFalse(all.isEmpty());
-  }
-
-  @Test
-  void findAllActive() {
-    List<User> all = userService.findAllActive();
 
     Assertions.assertNotNull(all);
     Assertions.assertFalse(all.isEmpty());

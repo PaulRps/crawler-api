@@ -1,5 +1,7 @@
 package paulrps.crawler.controllers;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +13,9 @@ import paulrps.crawler.services.NotifyService;
 
 @RestController
 @RequestMapping("v1/notify")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class NotifyController {
-  private NotifyService notifyService;
-
-  @Autowired
-  NotifyController(NotifyService notifyService) {
-    this.notifyService = notifyService;
-  }
+  @NonNull private final NotifyService notifyService;
 
   @PutMapping(value = "all")
   public ResponseEntity<Void> notifyAllUser() {

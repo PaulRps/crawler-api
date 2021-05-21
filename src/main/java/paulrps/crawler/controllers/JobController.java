@@ -1,7 +1,7 @@
 package paulrps.crawler.controllers;
 
-import java.util.List;
-import java.util.Map;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +12,15 @@ import paulrps.crawler.domain.dto.WebPageDataDto;
 import paulrps.crawler.domain.entity.User;
 import paulrps.crawler.services.JobService;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "v1/jobs")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobController {
 
-  private JobService jobService;
-
-  @Autowired
-  JobController(final JobService jobService) {
-    this.jobService = jobService;
-  }
+  private final @NonNull JobService jobService;
 
   @GetMapping
   public ResponseEntity<Map<User, List<WebPageDataDto>>> getAll() {

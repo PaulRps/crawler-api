@@ -2,7 +2,6 @@ package paulrps.crawler.repositories;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
@@ -13,9 +12,6 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import paulrps.crawler.domain.entity.User;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 @Testcontainers
 @DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
@@ -30,13 +26,7 @@ public class UserRepositoryTest {
 
   @Autowired UserRepository repository;
 
-  private User user =
-      User.builder()
-          .name("teste")
-          .email("teste@gmail.com")
-          .jobKeyWords(Arrays.asList("teste"))
-          .build();
-  ;
+  private User user = User.builder().name("teste").email("teste@gmail.com").build();
 
   @AfterEach
   void setUp() {
@@ -45,13 +35,13 @@ public class UserRepositoryTest {
 
   @Test
   void findByName() {
-    //given
+    // given
     repository.save(user);
 
-    //when
+    // when
     User byName = repository.findByName(user.getName());
 
-    //then
+    // then
     Assertions.assertThat(byName).isNotNull();
     Assertions.assertThat(byName.getName()).isEqualTo(user.getName());
   }

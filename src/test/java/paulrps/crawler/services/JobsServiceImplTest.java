@@ -1,20 +1,21 @@
 package paulrps.crawler.services;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import paulrps.crawler.domain.dto.UserDto;
 import paulrps.crawler.domain.dto.WebPageDataDto;
 import paulrps.crawler.domain.entity.User;
+import paulrps.crawler.domain.entity.UserJobFilter;
+
+import java.util.*;
 
 @SpringBootTest
 class JobsServiceImplTest {
   @Autowired private paulrps.crawler.services.JobService jobService;
   @Autowired private UserService userService;
+  @Autowired private UserJobFilterService userJobFilterService;
 
   @Test
   void getByUserEmail() {
@@ -22,23 +23,30 @@ class JobsServiceImplTest {
     User user = userService.findOneByEmail(email);
 
     if (!Optional.ofNullable(user).isPresent()) {
-      user =
-          User.builder()
-              .name("Paulo Silva")
-              .email(email)
+      UserDto userDto = UserDto.builder().name("Paulo Silva").email(email).build();
+      user = userService.save(userDto);
+    }
+
+    UserJobFilter userJobFilter = userJobFilterService.findByUserId(user.getId());
+
+    if (Objects.isNull(userJobFilter)) {
+      userJobFilter =
+          UserJobFilter.builder()
+              .userId(user.getId())
               .webPages(Arrays.asList(1))
               .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
+              .isActive(true)
               .build();
-      userService.save(user);
+      userJobFilterService.save(userJobFilter);
     }
 
     Assertions.assertNotNull(user);
     Assertions.assertFalse(user.getEmail().isEmpty());
     Assertions.assertEquals(email, user.getEmail());
-    Assertions.assertNotNull(user.getWebPages());
-    Assertions.assertFalse(user.getJobKeyWords().isEmpty());
-    Assertions.assertNotNull(user.getJobKeyWords());
-    Assertions.assertFalse(user.getJobKeyWords().isEmpty());
+    Assertions.assertNotNull(userJobFilter.getWebPages());
+    Assertions.assertFalse(userJobFilter.getJobKeyWords().isEmpty());
+    Assertions.assertNotNull(userJobFilter.getJobKeyWords());
+    Assertions.assertFalse(userJobFilter.getJobKeyWords().isEmpty());
 
     List<WebPageDataDto> byUserEmail = jobService.getByUserEmail(user.getEmail());
 

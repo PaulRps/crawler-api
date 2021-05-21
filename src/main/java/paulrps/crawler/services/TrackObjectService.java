@@ -10,7 +10,7 @@ public interface TrackObjectService {
 
   TrackObject save(TrackObjectDto trackObject);
 
-  TrackObject update(TrackObject trackObject);
+  TrackObject update(TrackObjectDto trackObjectDto);
 
   void inactivate(String trackCode);
 
