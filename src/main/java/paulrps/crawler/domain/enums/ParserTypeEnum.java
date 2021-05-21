@@ -13,7 +13,7 @@ public enum ParserTypeEnum {
   private Integer id;
   private String url;
 
-  private ParserTypeEnum(final Integer id, final String url) {
+  ParserTypeEnum(final Integer id, final String url) {
     this.id = id;
     this.url = url;
   }

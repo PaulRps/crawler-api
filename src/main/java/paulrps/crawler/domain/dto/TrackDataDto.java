@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TrackDataDto {
   private String trackingCode;
+  private String description;
   private List<TrackEventDto> events;
   private boolean hasChanged = false;
 }

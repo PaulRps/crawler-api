@@ -19,7 +19,8 @@ db.trackObject.insertMany([
   {
     userId: '5f73c61be3139d3af97cf55d',
     trackCode: 'QD416325310BR',
-    sender: 2,
+    description: 'teste',
+    carrier: 2,
     lastEvents: 4,
     isActive: true
   }

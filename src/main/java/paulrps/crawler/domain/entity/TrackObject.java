@@ -16,7 +16,8 @@ public class TrackObject {
   @Id private String id;
   private String userId;
   private String trackCode;
-  private Integer sender;
+  private String description;
+  private Integer carrier;
   private Long lastEvents = 0l;
   private Boolean isActive = true;
 

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface WebPageParser<T> {
 
-    List<T> parseData(String url);
+  <T extends Object> List<T> parseData(String url);
 }
