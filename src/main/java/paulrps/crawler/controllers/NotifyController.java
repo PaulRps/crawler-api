@@ -17,19 +17,19 @@ import paulrps.crawler.services.NotifyService;
 public class NotifyController {
   @NonNull private final NotifyService notifyService;
 
-  @PutMapping(value = "all")
+  @PutMapping(value = "job-opening/user/all")
   public ResponseEntity<Void> notifyAllUser() {
     notifyService.notifyAllUsers();
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @PutMapping(value = "user/{email}")
+  @PutMapping(value = "job-opening/user/{email}")
   public ResponseEntity<Void> notifyUser(@PathVariable String email) {
     notifyService.notifyByUserEmail(email);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @PutMapping("track-object")
+  @PutMapping("track-object/user/all")
   public ResponseEntity<Void> notifyAllUsers() {
     notifyService.notifyAllUsersTrack();
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
