@@ -30,7 +30,7 @@ public class UserJobFilterServiceImpl implements UserJobFilterService {
   @Override
   public UserJobFilter save(UserJobFilter userJobFilter) {
     if (Objects.isNull(userJobFilter)) return null;
-    if (!Objects.isNull(userJobFilter.getUserId())) return userJobFilter;
+    if (!Objects.isNull(userJobFilter.getId())) return userJobFilter;
     return repository.save(userJobFilter);
   }
 }
