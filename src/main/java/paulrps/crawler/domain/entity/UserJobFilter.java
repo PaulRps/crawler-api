@@ -13,7 +13,7 @@ import java.util.List;
 public class UserJobFilter {
   @Id private String id;
   private String userId;
-  private List<Integer> webPages;
+  private List<Integer> jobOpeningSources;
   private List<String> jobKeyWords;
   private Boolean isActive = true;
 }

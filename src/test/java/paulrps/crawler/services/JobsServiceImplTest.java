@@ -20,7 +20,7 @@ class JobsServiceImplTest {
   @Test
   void getByUserEmail() {
     String email = "ricardopaulo18@hotmail.com";
-    User user = userService.findOneByEmail(email);
+    User user = userService.findByEmail(email);
 
     if (!Optional.ofNullable(user).isPresent()) {
       UserDto userDto = UserDto.builder().name("Paulo Silva").email(email).build();
@@ -33,7 +33,7 @@ class JobsServiceImplTest {
       userJobFilter =
           UserJobFilter.builder()
               .userId(user.getId())
-              .webPages(Arrays.asList(1))
+              .jobOpeningSources(Arrays.asList(1))
               .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
               .isActive(true)
               .build();
@@ -43,7 +43,7 @@ class JobsServiceImplTest {
     Assertions.assertNotNull(user);
     Assertions.assertFalse(user.getEmail().isEmpty());
     Assertions.assertEquals(email, user.getEmail());
-    Assertions.assertNotNull(userJobFilter.getWebPages());
+    Assertions.assertNotNull(userJobFilter.getJobOpeningSources());
     Assertions.assertFalse(userJobFilter.getJobKeyWords().isEmpty());
     Assertions.assertNotNull(userJobFilter.getJobKeyWords());
     Assertions.assertFalse(userJobFilter.getJobKeyWords().isEmpty());

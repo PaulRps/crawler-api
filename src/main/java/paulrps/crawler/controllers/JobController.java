@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "v1/jobs")
+@RequestMapping(value = "v1/job-opening")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobController {
 

@@ -22,7 +22,7 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
 
   @Override
   public List<WebPageDataDto> getByUserEmail(String email) {
-    User user = userService.findOneByEmail(email);
+    User user = userService.findByEmail(email);
     List<WebPageDataDto> jobs = new ArrayList<>();
     Map<Integer, String> jobType = new TreeMap<>();
     jobType.put(
@@ -33,7 +33,7 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
     Optional.ofNullable(userJobFilter)
         .ifPresent(
             filters -> {
-              filters.getWebPages().stream()
+              filters.getJobOpeningSources().stream()
                   .filter(webPageId -> jobType.containsKey(webPageId))
                   .forEach(
                       webPageId -> {

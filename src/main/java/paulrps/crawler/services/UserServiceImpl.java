@@ -19,7 +19,7 @@ public class UserServiceImpl implements paulrps.crawler.services.UserService {
   private final @NonNull UserConverter converter;
 
   @Override
-  public User findOneByEmail(final String email) {
+  public User findByEmail(final String email) {
     return userRepository.findByEmail(email);
   }
 

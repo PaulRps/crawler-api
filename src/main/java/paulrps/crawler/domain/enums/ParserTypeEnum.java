@@ -1,10 +1,12 @@
 package paulrps.crawler.domain.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.stream.Stream;
 
 @Getter
+@AllArgsConstructor
 public enum ParserTypeEnum {
   GITHUB_BACKEND_ISSUES(1, "https://github.com/backend-br/vagas/issues"),
   CORREIOS_TRACK_OBJ(
@@ -12,11 +14,6 @@ public enum ParserTypeEnum {
 
   private Integer id;
   private String url;
-
-  ParserTypeEnum(final Integer id, final String url) {
-    this.id = id;
-    this.url = url;
-  }
 
   public static ParserTypeEnum getOne(final Integer id) {
     return Stream.of(ParserTypeEnum.values())

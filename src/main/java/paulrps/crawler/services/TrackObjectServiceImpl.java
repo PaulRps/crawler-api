@@ -28,7 +28,7 @@ public class TrackObjectServiceImpl implements TrackObjectService {
   @Override
   public TrackObject save(TrackObjectDto trackObjectDto) {
     TrackObject trackObject = converter.toEntity(trackObjectDto);
-    Optional.ofNullable(userService.findOneByEmail(trackObjectDto.getUserEmail()))
+    Optional.ofNullable(userService.findByEmail(trackObjectDto.getUserEmail()))
         .ifPresent(user -> trackObject.setUserId(user.getId()));
 
     return repository.save(trackObject);
@@ -68,7 +68,7 @@ public class TrackObjectServiceImpl implements TrackObjectService {
 
   @Override
   public List<TrackDataDto> getTrackObjByUserEmail(String email) {
-    User user = userService.findOneByEmail(email);
+    User user = userService.findByEmail(email);
     List<TrackObject> trackObjects = repository.findByUserIdAndIsActiveTrue(user.getId());
 
     Map<String, String> trackCodeDescriptionMap = new LinkedHashMap<String, String>();

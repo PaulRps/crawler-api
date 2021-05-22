@@ -15,7 +15,7 @@ db.createCollection('userJobFilter');
 db.userJobFilter.insertMany([
     {
         userId: '5f73c61be3139d3af97cf55d',
-        webPages: [1],
+        jobOpeningSources: [1],
         jobKeyWords: ["Java","Remoto","Remota","CLT","Spring"],
         isActive: true
     }

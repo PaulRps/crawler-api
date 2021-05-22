@@ -18,15 +18,15 @@ class UserServiceImplITest {
 
   @Test
   void save() {
-    User storedUser = userService.findOneByEmail(testUser.getEmail());
+    User storedUser = userService.findByEmail(testUser.getEmail());
     if (!Optional.ofNullable(storedUser).isPresent()) userService.save(testUser);
-    User paulo = userService.findOneByEmail(testUser.getEmail());
+    User paulo = userService.findByEmail(testUser.getEmail());
     Assertions.assertEquals(paulo.getName(), testUser.getName());
   }
 
   @Test
   void findOneByEmail() {
-    User oneByEmail = userService.findOneByEmail(testUser.getEmail());
+    User oneByEmail = userService.findByEmail(testUser.getEmail());
 
     Assertions.assertNotNull(oneByEmail);
     Assertions.assertEquals(testUser.getEmail(), oneByEmail.getEmail());
