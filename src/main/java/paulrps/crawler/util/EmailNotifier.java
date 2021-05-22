@@ -1,5 +1,7 @@
 package paulrps.crawler.util;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,17 +12,11 @@ import paulrps.crawler.domain.dto.NotificationMessageDto;
 import paulrps.crawler.domain.entity.User;
 
 @Component("EmailNotifier")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmailNotifier extends JobNotifier {
 
-  private JavaMailSender javaMailSender;
-
-  @Autowired
-  public EmailNotifier(
-      final @Qualifier("EmailMessageFormatter") MessageFormatter emailMessageFormatter,
-      final JavaMailSender javaMailSender) {
-    this.messageFormatter = emailMessageFormatter;
-    this.javaMailSender = javaMailSender;
-  }
+  private final @NonNull JavaMailSender javaMailSender;
+  private final @NonNull @Qualifier("EmailMessageFormatter") MessageFormatter messageFormatter;
 
   @Override
   public void sendTo(User user, NotificationMessageDto message) {

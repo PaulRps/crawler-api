@@ -24,10 +24,7 @@ import java.util.stream.Collectors;
 public class NotifyServiceImpl implements NotifyService {
 
   private final @NonNull JobService jobService;
-
-  @Qualifier("EmailNotifier")
-  private final @NonNull JobNotifier emailNotifier;
-
+  private final @NonNull @Qualifier("EmailNotifier") JobNotifier emailNotifier;
   private final @NonNull UserService userService;
   private final @NonNull TrackObjectService trackObjectService;
 
