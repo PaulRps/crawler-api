@@ -29,7 +29,7 @@ public class NotifyServiceImpl implements NotifyService {
   private final @NonNull TrackObjectService trackObjectService;
 
   @Override
-  public void notifyAllUsers() {
+  public void notifyJobsAllUsers() {
     log.info("SENDING JOB OPENINGS NOTIFICATION TO ALL USERS");
     Map<User, List<WebPageDataDto>> userJobOpenningsMap = jobService.getAll();
 
@@ -45,7 +45,7 @@ public class NotifyServiceImpl implements NotifyService {
   }
 
   @Override
-  public void notifyByUserEmail(String email) {
+  public void notifyJobsByUserEmail(String email) {
     log.info("SENDING JOB OPENINGS NOTIFICATION TO {}", email);
     List<WebPageDataDto> data = jobService.getByUserEmail(email);
     emailNotifier.sendTo(
@@ -55,7 +55,7 @@ public class NotifyServiceImpl implements NotifyService {
   }
 
   @Override
-  public void notifyAllUsersTrack() {
+  public void notifyTrackObjectAllUsers() {
     log.info("notifing all users for tracking objects");
     List<User> users = userService.findAll();
 

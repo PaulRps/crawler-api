@@ -1,16 +1,39 @@
 package paulrps.crawler.util;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import paulrps.crawler.domain.dto.GitHubIssuePageDto;
 import paulrps.crawler.domain.dto.WebPageDataDto;
 
-@Component("EmailMessageFormatter")
-public class EmailMessageFormatter implements MessageFormatter {
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+@Component("EmailJobMessageFormatter")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class EmailJobMessageFormatter implements MessageFormatter {
+
+  private final SpringTemplateEngine templateEngine;
+
   @Override
   public String formatBody(List<WebPageDataDto> data) {
+    Map<String, Object> thymeLeafContextData = new LinkedHashMap();
+    thymeLeafContextData.put("job_openings", data);
+
+    Context context = new Context();
+    context.setVariables(thymeLeafContextData);
+
+    String html = templateEngine.process("job-openings", context);
+
+    return html;
+  }
+
+  private String old(List<WebPageDataDto> data) {
     StringBuilder body = new StringBuilder("Job Openings Summary:");
     body.append(Constants.LINE_SEPARATOR);
     body.append(Constants.LINE_SEPARATOR);

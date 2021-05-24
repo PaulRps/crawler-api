@@ -12,7 +12,7 @@ db.user.insertMany([
 ]);
 
 db.createCollection('jobFilter');
-db.userJobFilter.insertMany([
+db.jobFilter.insertMany([
     {
         userId: '5f73c61be3139d3af97cf55d',
         jobOpeningSources: [1],

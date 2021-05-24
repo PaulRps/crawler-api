@@ -19,19 +19,19 @@ public class NotifyController {
 
   @PutMapping(value = "job-opening/user/all")
   public ResponseEntity<Void> notifyAllUser() {
-    notifyService.notifyAllUsers();
+    notifyService.notifyJobsAllUsers();
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PutMapping(value = "job-opening/user/{email}")
   public ResponseEntity<Void> notifyUser(@PathVariable String email) {
-    notifyService.notifyByUserEmail(email);
+    notifyService.notifyJobsByUserEmail(email);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @PutMapping("track-object/user/all")
   public ResponseEntity<Void> notifyAllUsers() {
-    notifyService.notifyAllUsersTrack();
+    notifyService.notifyTrackObjectAllUsers();
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

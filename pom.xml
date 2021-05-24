@@ -26,10 +26,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+
+        <!--        email-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -114,38 +125,38 @@
             </properties>
             <build>
                 <plugins>
-<!--                    <plugin>-->
-<!--                        <groupId>com.cosium.code</groupId>-->
-<!--                        <artifactId>git-code-format-maven-plugin</artifactId>-->
-<!--                        <version>2.5</version>-->
-<!--                        <executions>-->
-<!--                            &lt;!&ndash;              On commit, format the modified java files&ndash;&gt;-->
-<!--                            <execution>-->
-<!--                                <id>install-formatter-hook</id>-->
-<!--                                <goals>-->
-<!--                                    <goal>install-hooks</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                            &lt;!&ndash; On Maven verify phase, fail if any file-->
-<!--                            (including unmodified) is badly formatted &ndash;&gt;-->
-<!--                            <execution>-->
-<!--                                <id>validate-code-format</id>-->
-<!--                                <goals>-->
-<!--                                    <goal>validate-code-format</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-<!--                        <configuration>-->
-<!--                            <preCommitHookPipeline>| grep -F '[ERROR]' || exit 0 &amp;&amp; exit 1-->
-<!--                            </preCommitHookPipeline>-->
-<!--                            <googleJavaFormatOptions>-->
-<!--                                <aosp>false</aosp>-->
-<!--                                <fixImportsOnly>false</fixImportsOnly>-->
-<!--                                <skipSortingImports>false</skipSortingImports>-->
-<!--                                <skipRemovingUnusedImports>false</skipRemovingUnusedImports>-->
-<!--                            </googleJavaFormatOptions>-->
-<!--                        </configuration>-->
-<!--                    </plugin>-->
+                    <!--                    <plugin>-->
+                    <!--                        <groupId>com.cosium.code</groupId>-->
+                    <!--                        <artifactId>git-code-format-maven-plugin</artifactId>-->
+                    <!--                        <version>2.5</version>-->
+                    <!--                        <executions>-->
+                    <!--                            &lt;!&ndash;              On commit, format the modified java files&ndash;&gt;-->
+                    <!--                            <execution>-->
+                    <!--                                <id>install-formatter-hook</id>-->
+                    <!--                                <goals>-->
+                    <!--                                    <goal>install-hooks</goal>-->
+                    <!--                                </goals>-->
+                    <!--                            </execution>-->
+                    <!--                            &lt;!&ndash; On Maven verify phase, fail if any file-->
+                    <!--                            (including unmodified) is badly formatted &ndash;&gt;-->
+                    <!--                            <execution>-->
+                    <!--                                <id>validate-code-format</id>-->
+                    <!--                                <goals>-->
+                    <!--                                    <goal>validate-code-format</goal>-->
+                    <!--                                </goals>-->
+                    <!--                            </execution>-->
+                    <!--                        </executions>-->
+                    <!--                        <configuration>-->
+                    <!--                            <preCommitHookPipeline>| grep -F '[ERROR]' || exit 0 &amp;&amp; exit 1-->
+                    <!--                            </preCommitHookPipeline>-->
+                    <!--                            <googleJavaFormatOptions>-->
+                    <!--                                <aosp>false</aosp>-->
+                    <!--                                <fixImportsOnly>false</fixImportsOnly>-->
+                    <!--                                <skipSortingImports>false</skipSortingImports>-->
+                    <!--                                <skipRemovingUnusedImports>false</skipRemovingUnusedImports>-->
+                    <!--                            </googleJavaFormatOptions>-->
+                    <!--                        </configuration>-->
+                    <!--                    </plugin>-->
                 </plugins>
             </build>
         </profile>
@@ -164,7 +175,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.3.9.RELEASE</version>
             </plugin>
-<!--            map struct with lombok support-->
+            <!--            map struct with lombok support-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

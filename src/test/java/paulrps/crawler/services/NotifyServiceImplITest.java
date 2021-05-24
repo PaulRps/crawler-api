@@ -11,11 +11,11 @@ class NotifyServiceImplITest {
 
   @Test
   void notifyAllUsers() {
-    Assertions.assertDoesNotThrow(() -> notifyService.notifyAllUsers());
+    Assertions.assertDoesNotThrow(() -> notifyService.notifyJobsAllUsers());
   }
 
   @Test
   void notifyByUserEmail() {
-    Assertions.assertDoesNotThrow(() -> notifyService.notifyByUserEmail("paulosilvajp0@gmail.com"));
+    Assertions.assertDoesNotThrow(() -> notifyService.notifyJobsByUserEmail("paulosilvajp0@gmail.com"));
   }
 }

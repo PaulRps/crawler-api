@@ -1,9 +1,9 @@
 package paulrps.crawler.services;
 
 public interface NotifyService {
-  void notifyAllUsers();
+  void notifyJobsAllUsers();
 
-  void notifyByUserEmail(String email);
+  void notifyJobsByUserEmail(String email);
 
-  void notifyAllUsersTrack();
+  void notifyTrackObjectAllUsers();
 }
