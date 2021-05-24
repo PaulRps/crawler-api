@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import paulrps.crawler.domain.dto.UserJobFilterDto;
-import paulrps.crawler.domain.entity.UserJobFilter;
-import paulrps.crawler.services.UserJobFilterService;
+import paulrps.crawler.domain.dto.JobFilterDto;
+import paulrps.crawler.domain.entity.JobFilter;
+import paulrps.crawler.services.JobFilterService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,26 +18,26 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobFiltersController {
 
-  private final @NonNull UserJobFilterService userJobFilterService;
+  private final @NonNull JobFilterService jobFilterService;
 
   @GetMapping
-  public ResponseEntity<List<UserJobFilter>> getAll() {
-    return ResponseEntity.ok(userJobFilterService.findAll());
+  public ResponseEntity<List<JobFilter>> getAll() {
+    return ResponseEntity.ok(jobFilterService.findAll());
   }
 
   @GetMapping("user/{email}")
-  public ResponseEntity<UserJobFilter> getByUserEmail(@PathVariable String email) {
-    return ResponseEntity.ok(userJobFilterService.findByUserEmail(email));
+  public ResponseEntity<JobFilter> getByUserEmail(@PathVariable String email) {
+    return ResponseEntity.ok(jobFilterService.findByUserEmail(email));
   }
 
   @PostMapping
-  public ResponseEntity<UserJobFilter> create(@RequestBody @Valid UserJobFilterDto dto) {
-    return new ResponseEntity(userJobFilterService.save(dto), HttpStatus.CREATED);
+  public ResponseEntity<JobFilter> create(@RequestBody @Valid JobFilterDto dto) {
+    return new ResponseEntity(jobFilterService.save(dto), HttpStatus.CREATED);
   }
 
   @PutMapping
-  public ResponseEntity<Void> update(@RequestBody @Valid UserJobFilterDto userJobFilterDto) {
-    userJobFilterService.update(userJobFilterDto);
+  public ResponseEntity<Void> update(@RequestBody @Valid JobFilterDto jobFilterDto) {
+    jobFilterService.update(jobFilterDto);
     return new ResponseEntity(HttpStatus.NO_CONTENT);
   }
 }

@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import paulrps.crawler.domain.dto.WebPageDataDto;
+import paulrps.crawler.domain.entity.JobFilter;
 import paulrps.crawler.domain.entity.User;
-import paulrps.crawler.domain.entity.UserJobFilter;
 import paulrps.crawler.domain.enums.ParserTypeEnum;
 import paulrps.crawler.util.WebPageParserFactory;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JobsServiceImpl implements paulrps.crawler.services.JobService {
   private final @NonNull paulrps.crawler.services.UserService userService;
-  private final @NonNull UserJobFilterService userJobFilterService;
+  private final @NonNull JobFilterService jobFilterService;
 
   @Override
   public List<WebPageDataDto> getByUserEmail(String email) {
@@ -29,8 +29,8 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
         ParserTypeEnum.GITHUB_BACKEND_ISSUES.getId(),
         ParserTypeEnum.GITHUB_BACKEND_ISSUES.getUrl());
 
-    UserJobFilter userJobFilter = userJobFilterService.findByUserId(user.getId());
-    Optional.ofNullable(userJobFilter)
+    JobFilter jobFilter = jobFilterService.findByUserId(user.getId());
+    Optional.ofNullable(jobFilter)
         .ifPresent(
             filters -> {
               filters.getJobOpeningSources().stream()
@@ -55,10 +55,10 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
     Map<User, List<WebPageDataDto>> jobOpenningsMap = new LinkedHashMap<>();
 
     List<User> allUsers = userService.findAll();
-    Map<String, List<UserJobFilter>> activeUsersMap =
-        userJobFilterService.findAll().stream()
-            .filter(UserJobFilter::getIsActive)
-            .collect(Collectors.groupingBy(UserJobFilter::getUserId));
+    Map<String, List<JobFilter>> activeUsersMap =
+        jobFilterService.findAll().stream()
+            .filter(JobFilter::getIsActive)
+            .collect(Collectors.groupingBy(JobFilter::getUserId));
 
     Optional.ofNullable(allUsers)
         .ifPresent(
@@ -70,15 +70,15 @@ public class JobsServiceImpl implements paulrps.crawler.services.JobService {
     return jobOpenningsMap;
   }
 
-  private boolean filterData(WebPageDataDto data, UserJobFilter userJobFilter) {
+  private boolean filterData(WebPageDataDto data, JobFilter jobFilter) {
     Map<String, String> dataMap = data.getDataMap();
     long countMatch =
-        userJobFilter.getJobKeyWords().stream()
+        jobFilter.getJobKeyWords().stream()
             .filter(keyWord -> dataMap.containsKey(keyWord.toLowerCase()))
             .count();
 
     return (BigDecimal.valueOf(countMatch)
-                .divide(BigDecimal.valueOf(userJobFilter.getJobKeyWords().size())))
+                .divide(BigDecimal.valueOf(jobFilter.getJobKeyWords().size())))
             .compareTo(BigDecimal.valueOf(0.5))
         >= 0;
   }

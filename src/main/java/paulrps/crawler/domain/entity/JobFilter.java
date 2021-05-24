@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Builder
 @Document
-public class UserJobFilter {
+public class JobFilter {
   @Id private String id;
   private String userId;
   private List<Integer> jobOpeningSources;

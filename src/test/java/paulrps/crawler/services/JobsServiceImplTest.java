@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import paulrps.crawler.domain.dto.UserDto;
 import paulrps.crawler.domain.dto.WebPageDataDto;
+import paulrps.crawler.domain.entity.JobFilter;
 import paulrps.crawler.domain.entity.User;
-import paulrps.crawler.domain.entity.UserJobFilter;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ import java.util.*;
 class JobsServiceImplTest {
   @Autowired private paulrps.crawler.services.JobService jobService;
   @Autowired private UserService userService;
-  @Autowired private UserJobFilterService userJobFilterService;
+  @Autowired private JobFilterService jobFilterService;
 
   @Test
   void getByUserEmail() {
@@ -27,26 +27,26 @@ class JobsServiceImplTest {
       user = userService.save(userDto);
     }
 
-    UserJobFilter userJobFilter = userJobFilterService.findByUserId(user.getId());
+    JobFilter jobFilter = jobFilterService.findByUserId(user.getId());
 
-    if (Objects.isNull(userJobFilter)) {
-      userJobFilter =
-          UserJobFilter.builder()
+    if (Objects.isNull(jobFilter)) {
+      jobFilter =
+          JobFilter.builder()
               .userId(user.getId())
               .jobOpeningSources(Arrays.asList(1))
               .jobKeyWords(Arrays.asList("Java", "Remoto", "Remota", "CLT", "Spring"))
               .isActive(true)
               .build();
-      userJobFilterService.save(userJobFilter);
+      jobFilterService.save(jobFilter);
     }
 
     Assertions.assertNotNull(user);
     Assertions.assertFalse(user.getEmail().isEmpty());
     Assertions.assertEquals(email, user.getEmail());
-    Assertions.assertNotNull(userJobFilter.getJobOpeningSources());
-    Assertions.assertFalse(userJobFilter.getJobKeyWords().isEmpty());
-    Assertions.assertNotNull(userJobFilter.getJobKeyWords());
-    Assertions.assertFalse(userJobFilter.getJobKeyWords().isEmpty());
+    Assertions.assertNotNull(jobFilter.getJobOpeningSources());
+    Assertions.assertFalse(jobFilter.getJobKeyWords().isEmpty());
+    Assertions.assertNotNull(jobFilter.getJobKeyWords());
+    Assertions.assertFalse(jobFilter.getJobKeyWords().isEmpty());
 
     List<WebPageDataDto> byUserEmail = jobService.getByUserEmail(user.getEmail());
 

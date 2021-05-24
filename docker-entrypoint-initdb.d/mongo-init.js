@@ -11,7 +11,7 @@ db.user.insertMany([
     }
 ]);
 
-db.createCollection('userJobFilter');
+db.createCollection('jobFilter');
 db.userJobFilter.insertMany([
     {
         userId: '5f73c61be3139d3af97cf55d',

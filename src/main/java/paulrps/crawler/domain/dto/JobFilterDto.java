@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJobFilterDto {
+public class JobFilterDto {
   @NotBlank(message = "user email is required")
   private String userEmail;
 
