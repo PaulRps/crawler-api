@@ -12,6 +12,7 @@ import paulrps.crawler.domain.dto.TrackEventDto;
 import paulrps.crawler.domain.dto.WebPageDataDto;
 import paulrps.crawler.domain.entity.User;
 import paulrps.crawler.util.Constants;
+import paulrps.crawler.util.EmailTrackObjectMessageFormatter;
 import paulrps.crawler.util.JobNotifier;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class NotifyServiceImpl implements NotifyService {
   private final @NonNull @Qualifier("EmailNotifier") JobNotifier emailNotifier;
   private final @NonNull UserService userService;
   private final @NonNull TrackObjectService trackObjectService;
+  private final @NonNull EmailTrackObjectMessageFormatter trackObjectMessageFormatter;
 
   @Override
   public void notifyJobsAllUsers() {
@@ -67,7 +69,8 @@ public class NotifyServiceImpl implements NotifyService {
                   .collect(Collectors.toList());
           log.info("found {} track objects to notify", trackData.size());
           if (!trackData.isEmpty())
-            emailNotifier.sendTo(user, "Tracking Summary", tempTrackObjFormater(trackData));
+            emailNotifier.sendTo(
+                user, "Tracking Summary", trackObjectMessageFormatter.formatBody(trackData));
         });
   }
 

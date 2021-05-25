@@ -1,5 +1,6 @@
 package paulrps.crawler.util;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import paulrps.crawler.domain.dto.GitHubIssuePageDto;
 import paulrps.crawler.domain.dto.WebPageDataDto;
+import paulrps.crawler.domain.enums.EmailTemplateEnum;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmailJobMessageFormatter implements MessageFormatter {
 
-  private final SpringTemplateEngine templateEngine;
+  private final @NonNull SpringTemplateEngine templateEngine;
 
   @Override
   public String formatBody(List<WebPageDataDto> data) {
@@ -28,7 +30,7 @@ public class EmailJobMessageFormatter implements MessageFormatter {
     Context context = new Context();
     context.setVariables(thymeLeafContextData);
 
-    String html = templateEngine.process("job-openings", context);
+    String html = templateEngine.process(EmailTemplateEnum.JOB_OPENING.getName(), context);
 
     return html;
   }
