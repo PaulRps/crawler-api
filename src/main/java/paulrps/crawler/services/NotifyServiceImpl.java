@@ -35,14 +35,16 @@ public class NotifyServiceImpl implements NotifyService {
     log.info("SENDING JOB OPENINGS NOTIFICATION TO ALL USERS");
     Map<User, List<WebPageDataDto>> userJobOpenningsMap = jobService.getAll();
 
-    userJobOpenningsMap.forEach(
-        (user, data) ->
-            emailNotifier.sendTo(
-                user,
-                EmailNotificationMessageDto.builder()
-                    .subject("Job Crawler Summary")
-                    .body(data)
-                    .build()));
+    userJobOpenningsMap.entrySet().stream()
+        .filter(e -> !e.getValue().isEmpty())
+        .forEach(
+            e ->
+                emailNotifier.sendTo(
+                    e.getKey(),
+                    EmailNotificationMessageDto.builder()
+                        .subject("Job Crawler Summary")
+                        .body(e.getValue())
+                        .build()));
     log.info("SENT JOB OPENINGS NOTIFICATION TO ALL USERS");
   }
 
@@ -50,10 +52,13 @@ public class NotifyServiceImpl implements NotifyService {
   public void notifyJobsByUserEmail(String email) {
     log.info("SENDING JOB OPENINGS NOTIFICATION TO {}", email);
     List<WebPageDataDto> data = jobService.getByUserEmail(email);
-    emailNotifier.sendTo(
-        User.builder().email(email).build(),
-        EmailNotificationMessageDto.builder().subject("Job Crawler Summary").body(data).build());
-    log.info("SENT JOB OPENINGS NOTIFICATION TO {}", email);
+
+    if (!data.isEmpty()) {
+      emailNotifier.sendTo(
+          User.builder().email(email).build(),
+          EmailNotificationMessageDto.builder().subject("Job Crawler Summary").body(data).build());
+      log.info("SENT JOB OPENINGS NOTIFICATION TO {}", email);
+    }
   }
 
   @Override
